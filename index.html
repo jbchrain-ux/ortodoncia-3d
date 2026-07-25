@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OrthoMaster Pro — Plataforma 3D Fotorrealista</title>
+  <title>OrthoMaster Pro 3D — Plataforma Clínica</title>
   <style>
     :root {
       --bg-dark: #0a0f1d;
-      --panel-bg: rgba(20, 27, 45, 0.85);
+      --panel-bg: rgba(20, 27, 45, 0.9);
       --accent-neon: #00f2fe;
       --accent-purple: #7928ca;
       --text-main: #f1f5f9;
       --text-sub: #94a3b8;
       --border-glow: rgba(0, 242, 254, 0.25);
       --positive: #22c55e;
+      --card-bg: #131c31;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -24,7 +25,7 @@
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      padding: 20px;
+      padding: 15px;
       background-image: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0a0f1d 70%);
     }
 
@@ -34,15 +35,16 @@
       background: var(--panel-bg);
       backdrop-filter: blur(16px);
       border: 1px solid var(--border-glow);
-      border-radius: 20px;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
       overflow: hidden;
       display: flex;
       flex-direction: column;
     }
 
+    /* HEADER & MENÚ DE NAVEGACIÓN */
     .header {
-      padding: 20px 30px;
+      padding: 15px 25px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -50,72 +52,112 @@
     }
 
     .brand {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 800;
       background: linear-gradient(45deg, var(--accent-neon), var(--accent-purple));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .main-content { padding: 25px 30px; }
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 10px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      overflow-x: auto;
+    }
 
+    .nav-btn {
+      padding: 8px 16px;
+      border: none;
+      background: transparent;
+      color: var(--text-sub);
+      font-weight: 600;
+      font-size: 13px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+
+    .nav-btn.active, .nav-btn:hover {
+      color: #fff;
+      background: rgba(0, 242, 254, 0.15);
+      border: 1px solid var(--border-glow);
+    }
+
+    /* ÁREA DE CONTENIDO */
+    .main-content { padding: 20px; }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; animation: fadeIn 0.3s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* LABORATORIO 3D */
     .lab-grid {
       display: grid;
       grid-template-columns: 1.8fr 1fr;
       gap: 20px;
     }
 
+    @media (max-width: 768px) {
+      .lab-grid { grid-template-columns: 1fr; }
+    }
+
     .canvas-card {
-      background: #000000;
+      background: #000;
       border: 1px solid var(--border-glow);
-      border-radius: 16px;
-      height: 420px;
+      border-radius: 12px;
+      height: 380px;
       position: relative;
       overflow: hidden;
     }
 
-    #three-canvas {
-      width: 100%;
-      height: 100%;
-    }
-
-    .canvas-hint {
-      position: absolute;
-      bottom: 12px;
-      left: 12px;
-      font-size: 11px;
-      color: var(--text-sub);
-      background: rgba(0,0,0,0.6);
-      padding: 4px 8px;
-      border-radius: 6px;
-      pointer-events: none;
-    }
+    #three-canvas { width: 100%; height: 100%; }
 
     .controls-panel {
-      background: rgba(255, 255, 255, 0.03);
-      padding: 20px;
-      border-radius: 16px;
+      background: var(--card-bg);
+      padding: 18px;
+      border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
     .btn-action {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       border: 1px solid var(--accent-neon);
-      border-radius: 8px;
+      border-radius: 6px;
       background: rgba(0, 242, 254, 0.1);
       color: var(--accent-neon);
       font-weight: bold;
       cursor: pointer;
-      transition: 0.3s;
+      transition: 0.2s;
     }
 
-    .btn-action:hover {
-      background: var(--accent-neon);
-      color: #000;
+    .btn-action:hover { background: var(--accent-neon); color: #000; }
+
+    .btn-pdf {
+      margin-top: 10px;
+      border-color: var(--positive);
+      color: var(--positive);
+      background: rgba(34, 197, 94, 0.1);
+    }
+    .btn-pdf:hover { background: var(--positive); color: #000; }
+
+    /* TARJETAS DE CASOS Y CONTENIDO */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 16px;
+      border-radius: 10px;
+      margin-bottom: 12px;
     }
 
     .status-badge {
@@ -124,119 +166,154 @@
       padding: 4px 8px;
       border-radius: 6px;
       font-size: 11px;
-      display: inline-block;
     }
   </style>
 
-  <!-- Importamos Three.js y OrbitControls vía CDN -->
+  <!-- CDNs: Three.js para 3D y html2pdf para exportar PDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
   <div id="app-container">
+    <!-- BARRA SUPERIOR -->
     <div class="header">
       <div class="brand">OrthoMaster Pro 3D</div>
-      <span class="status-badge">● Visor WebGL 3D Activo</span>
+      <span class="status-badge">● Entorno de Trabajo Activo</span>
     </div>
 
-    <div class="main-content">
-      <div class="lab-grid">
-        <div class="canvas-card">
-          <div id="three-canvas"></div>
-          <div class="canvas-hint">🖱️ Mantén presionado y arrastra para rotar en 3D | Rueda para zoom</div>
-        </div>
+    <!-- MENÚ DE NAVEGACIÓN (PESTAÑAS) -->
+    <div class="nav-tabs">
+      <button class="nav-btn active" onclick="showTab('tab-lab')">🧪 Laboratorio 3D</button>
+      <button class="nav-btn" onclick="showTab('tab-casos')">📋 Banco de Casos</button>
+      <button class="nav-btn" onclick="showTab('tab-ruta')">🎓 Ruta de Maestría</button>
+      <button class="nav-btn" onclick="showTab('tab-dash')">📊 Dashboard & PDF</button>
+    </div>
 
-        <div class="controls-panel">
-          <h3 style="font-size:16px;">Controles Biomecánicos</h3>
-          
-          <button class="btn-action" onclick="toggleBrackets()">1. Alternar Brackets y Arcos</button>
-          <button class="btn-action" onclick="applyRetraction()">2. Simular Retracción Anterior</button>
-          <button class="btn-action" onclick="resetSim()" style="border-color: #ef4444; color: #ef4444; background: rgba(239, 68, 68, 0.1);">Reiniciar Posición</button>
+    <!-- ÁREA DE CONTENIDO -->
+    <div class="main-content" id="reportable-area">
 
-          <div style="margin-top: 15px; font-size: 13px; color: var(--text-sub); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px;">
-            <strong>Tensión Biomecánica:</strong> <br>
-            <span id="force-val" style="color:var(--accent-neon); font-size: 16px;">0.0 N</span>
+      <!-- PESTAÑA 1: LABORATORIO 3D -->
+      <div id="tab-lab" class="tab-pane active">
+        <div class="lab-grid">
+          <div class="canvas-card">
+            <div id="three-canvas"></div>
+          </div>
+          <div class="controls-panel">
+            <h3 style="font-size:15px;">Panel Biomecánico 3D</h3>
+            <button class="btn-action" onclick="toggleBrackets()">1. Alternar Brackets / Arcos</button>
+            <button class="btn-action" onclick="applyRetraction()">2. Simular Retracción Anterior</button>
+            <button class="btn-action" onclick="resetSim()" style="border-color:#ef4444; color:#ef4444; background:rgba(239, 68, 68, 0.1);">Reiniciar Modelo</button>
+            
+            <div style="margin-top:10px; font-size:12px; color:var(--text-sub);">
+              <strong>Tensión Ejercida:</strong> <br>
+              <span id="force-val" style="color:var(--accent-neon); font-size:15px; font-weight:bold;">0.0 N</span>
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- PESTAÑA 2: BANCO DE CASOS -->
+      <div id="tab-casos" class="tab-pane">
+        <div class="card">
+          <h3>Caso Clínico #1: Clase II División 1</h3>
+          <p style="color:var(--text-sub); font-size:13px; margin: 8px 0;">Paciente femenina de 24 años presenta overjet aumentado de 7mm y retrogneismo mandibular.</p>
+          <button class="btn-action" onclick="alert('Opción seleccionada: Avance Mandibular con Elásticos de Clase II')" style="width:auto; padding:6px 12px; font-size:12px;">Evaluar Mecánica Correcta</button>
+        </div>
+      </div>
+
+      <!-- PESTAÑA 3: RUTA DE MAESTRÍA -->
+      <div id="tab-ruta" class="tab-pane">
+        <div class="card">
+          <h3>Grado 1 — Fundamentos & Diagnóstico (Licenciatura)</h3>
+          <p style="color:var(--text-sub); font-size:13px;">Avance: 85% completado</p>
+        </div>
+        <div class="card">
+          <h3>Grado 2 — Especialidad & Biomecánica Avanzada</h3>
+          <p style="color:var(--text-sub); font-size:13px;">Avance: 60% completado</p>
+        </div>
+      </div>
+
+      <!-- PESTAÑA 4: DASHBOARD Y PDF -->
+      <div id="tab-dash" class="tab-pane">
+        <div class="card">
+          <h3>Métricas del Estudiante</h3>
+          <p style="margin-top:5px; font-size:13px;">Precisión Diagnóstica: <strong>92%</strong></p>
+          <p style="font-size:13px;">Simulaciones Biomecánicas Completadas: <strong>14</strong></p>
+          
+          <button class="btn-action btn-pdf" onclick="downloadPDF()">📄 Exportar Reporte de Trabajo en PDF</button>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <script>
-    // Configuración Escena Three.js
+    // CAMBIO DE PESTAÑAS (MENÚ)
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    // EXPORTAR PDF
+    function downloadPDF() {
+      const element = document.getElementById('reportable-area');
+      html2pdf().from(element).save('Reporte_OrthoMaster_Pro.pdf');
+    }
+
+    // VISOR 3D THREE.JS
     const container = document.getElementById('three-canvas');
     const scene = new THREE.Scene();
-    
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
     camera.position.set(0, 8, 18);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.shadowMap.enabled = true;
     container.appendChild(renderer.domElement);
 
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
 
-    // Luces de Estudio Médico
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
-    scene.add(ambientLight);
+    // LUCES
+    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+    const light = new THREE.DirectionalLight(0x00f2fe, 0.8);
+    light.position.set(10, 20, 10);
+    scene.add(light);
 
-    const dirLight1 = new THREE.DirectionalLight(0x00f2fe, 0.8);
-    dirLight1.position.set(10, 20, 10);
-    scene.add(dirLight1);
+    // MATERIALES
+    const gumMat = new THREE.MeshPhongMaterial({ color: 0xd97780 });
+    const toothMat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0.1, clearcoat: 1.0 });
+    const bracketMat = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.9 });
 
-    const dirLight2 = new THREE.DirectionalLight(0xffffff, 0.6);
-    dirLight2.position.set(-10, -10, -10);
-    scene.add(dirLight2);
-
-    // Materiales Fotorrealistas
-    const gumMaterial = new THREE.MeshPhongMaterial({ color: 0xd97780, roughness: 0.3 });
-    const toothMaterial = new THREE.MeshPhysicalMaterial({ 
-      color: 0xffffff, roughness: 0.1, transmission: 0.1, thickness: 0.5, clearcoat: 1.0 
-    });
-    const bracketMaterial = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.9, roughness: 0.2 });
-
-    // Construcción de la Arcada Dental
+    // ARCADA 3D
     const archGroup = new THREE.Group();
-    const teethList = [];
-    const bracketsList = [];
+    const teeth = [], brackets = [];
 
-    // Encía
-    const gumGeo = new THREE.TorusGeometry(6, 1.2, 16, 32, Math.PI);
-    const gum = new THREE.Mesh(gumGeo, gumMaterial);
+    const gum = new THREE.Mesh(new THREE.TorusGeometry(6, 1.2, 16, 32, Math.PI), gumMat);
     gum.rotation.x = Math.PI / 2;
     archGroup.add(gum);
 
-    // Dientes y Brackets
-    const toothCount = 10;
-    for (let i = 0; i <= toothCount; i++) {
-      const angle = (i / toothCount) * Math.PI;
-      const x = 6 * Math.cos(angle);
-      const z = 6 * Math.sin(angle);
+    for (let i = 0; i <= 10; i++) {
+      const angle = (i / 10) * Math.PI;
+      const x = 6 * Math.cos(angle), z = 6 * Math.sin(angle);
 
-      // Diente (Esfera escalada)
-      const toothGeo = new THREE.SphereGeometry(0.8, 32, 32);
-      const tooth = new THREE.Mesh(toothGeo, toothMaterial);
+      const tooth = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), toothMat);
       tooth.position.set(x, 0, z);
       tooth.scale.set(0.8, 1.2, 0.8);
       archGroup.add(tooth);
-      teethList.push(tooth);
+      teeth.push(tooth);
 
-      // Bracket
-      const bracketGeo = new THREE.BoxGeometry(0.3, 0.3, 0.3);
-      const bracket = new THREE.Mesh(bracketGeo, bracketMaterial);
+      const bracket = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.3, 0.3), bracketMat);
       bracket.position.set(x * 1.12, 0, z * 1.12);
       bracket.visible = false;
       archGroup.add(bracket);
-      bracketsList.push(bracket);
+      brackets.push(bracket);
     }
-
     scene.add(archGroup);
 
-    // Animación Render Loop
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
@@ -244,36 +321,26 @@
     }
     animate();
 
-    // Controles de Simulación
-    let bracketsVisible = false;
+    // INTERACCIONES BIOMECÁNICAS
+    let showB = false;
     function toggleBrackets() {
-      bracketsVisible = !bracketsVisible;
-      bracketsList.forEach(b => b.visible = bracketsVisible);
+      showB = !showB;
+      brackets.forEach(b => b.visible = showB);
     }
 
     function applyRetraction() {
-      // Mueve los dientes centrales en 3D
-      teethList[4].position.z -= 0.4;
-      teethList[5].position.z -= 0.4;
-      bracketsList[4].position.z -= 0.4;
-      bracketsList[5].position.z -= 0.4;
-      document.getElementById('force-val').innerText = '1.8 N (Retracción en curso)';
+      teeth[4].position.z -= 0.4; teeth[5].position.z -= 0.4;
+      brackets[4].position.z -= 0.4; brackets[5].position.z -= 0.4;
+      document.getElementById('force-val').innerText = '1.8 N (Retracción activa)';
     }
 
     function resetSim() {
-      teethList[4].position.z = 6 * Math.sin((4 / toothCount) * Math.PI);
-      teethList[5].position.z = 6 * Math.sin((5 / toothCount) * Math.PI);
-      bracketsList[4].position.z = 6.72 * Math.sin((4 / toothCount) * Math.PI);
-      bracketsList[5].position.z = 6.72 * Math.sin((5 / toothCount) * Math.PI);
+      teeth[4].position.z = 6 * Math.sin((4/10)*Math.PI);
+      teeth[5].position.z = 6 * Math.sin((5/10)*Math.PI);
+      brackets[4].position.z = 6.72 * Math.sin((4/10)*Math.PI);
+      brackets[5].position.z = 6.72 * Math.sin((5/10)*Math.PI);
       document.getElementById('force-val').innerText = '0.0 N';
     }
-
-    // Adaptación a la ventana
-    window.addEventListener('resize', () => {
-      camera.aspect = container.clientWidth / container.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
-    });
   </script>
 </body>
 </html>
